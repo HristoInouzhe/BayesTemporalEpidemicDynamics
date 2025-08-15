@@ -1,0 +1,4 @@
+../../output/test_2/test_2_1/art.txt:hsl_Gupta 0.000214
+../../output/test_2/test_2_2/art.txt:hsl_Gupta 0.000285
+../../output/test_2/test_2_3/art.txt:hsl_Gupta 0.000375
+../../output/test_2/test_2_4/art.txt:hsl_Gupta 0.000244

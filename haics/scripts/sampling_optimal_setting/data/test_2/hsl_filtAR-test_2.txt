@@ -1,0 +1,4 @@
+../../output/test_2/test_2_1/art.txt:hsl_filtAR 0.000121
+../../output/test_2/test_2_2/art.txt:hsl_filtAR 0.000168
+../../output/test_2/test_2_3/art.txt:hsl_filtAR 0.000202
+../../output/test_2/test_2_4/art.txt:hsl_filtAR 0.000151

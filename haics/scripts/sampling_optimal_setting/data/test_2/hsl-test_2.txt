@@ -1,0 +1,4 @@
+../../output/test_2/test_2_1/art.txt:hsl 0.000167
+../../output/test_2/test_2_2/art.txt:hsl 0.000226
+../../output/test_2/test_2_3/art.txt:hsl 0.000289
+../../output/test_2/test_2_4/art.txt:hsl 0.000197

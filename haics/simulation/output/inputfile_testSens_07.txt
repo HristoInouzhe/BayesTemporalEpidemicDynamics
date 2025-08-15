@@ -1,0 +1,117 @@
+#------------------------------
+# Values for general variables
+#------------------------------
+model SEMIKR_Incidence
+data synthetic_covid19
+method GHMC
+seed 0
+iter_sampling 100000
+iter_burn_in 20000
+integrator 3sAIA-HMC
+t_L 30
+L 6
+t_stepsize 0
+stepsize_units 1
+stepsize 0.00001
+thinning 1
+#------------------------------
+# Values for MMHMC variables
+#------------------------------
+t_Phi 0
+Phi 1
+Phi_upper 1
+sH A
+#------------------------------
+# Values for latent variables
+#------------------------------
+integrator_lat 1sVV
+int_coeff_lat 0.23
+t_L_lat 3
+L_lat 76
+t_stepsize_lat 1
+stepsize_lat 0.03
+t_Phi_lat 3
+Phi_lat 0.5
+#------------------------------
+# temporary options for testing
+#------------------------------
+scaling_method 1
+stepsize_delta 0.0101548957679457
+target_MomAR 0
+tau 1
+stdev_option 1
+#------------------------------
+# Prior configuration
+#------------------------------
+type_prior 1
+location_param 0
+scale_param 10
+#------------------------------
+# Tuning and burnin parameters
+#------------------------------
+iter_tune 200
+AR_target 0.92
+delta_AR_target 0.01
+fitting_factor_approach Gupta
+use_freqs_fitting 1
+fitting_factor_manual 1
+fitting_factor 1
+freqs_manual 1
+w_max_input 1
+w_stdev_input 0
+opt_param_setting 1
+fitting_factor_low_approach H_pos_acc_avg
+fitting_factor_upp_approach Gupta
+h_lower_approach hBCSS3max
+h_upper_approach HSL
+phi_alpha_target 0.9
+phi_alpha_low 1
+phi_alpha_upp 0.999
+phi_upper_opt 1
+tau_L 1
+#------------------------------
+# Epidemic models parameters
+#------------------------------
+num_basis_spline 8
+spline_pol_degree 3
+tfin_spl_bas 100
+num_out_cvodes 100
+initialCountsFixed 0
+S0_fixed_value 2185595
+E0_fixed_value 10
+I0_fixed_value 0
+dirich_alpha_0 999993.424608
+dirich_alpha_1 4.575392
+dirich_alpha_2 1
+dirich_alpha_3 1
+alpha_prior PRIOR_NORMAL
+alpha_param_1 0.5
+alpha_param_2 0.05
+gamma_prior PRIOR_NORMAL
+gamma_param_1 0.1
+gamma_param_2 0.05
+phi_inv_prior PRIOR_EXPONENTIAL
+phi_inv_param_1 20
+phi_inv_param_2 0
+tau_prior PRIOR_INVGAMMA
+tau_param_1 1.0
+tau_param_2 0.005
+num_comp 3
+num_comp_E 1
+do_under_report 0
+T0_under 92
+U0_under 0.15
+T1_under 281
+U1_under 0.54
+do_grad_desc 0
+learning_rate 1e-5
+max_iter 200
+gammaFixed 1
+gamma_fixed_value 0.1
+gammaBounded 0
+gammaUpper 0.1
+gammaLower 0.1
+beta_prior PRIOR_NORMAL
+beta_param_1 2.0
+beta_param_2 1.0
+hessian_calc 0

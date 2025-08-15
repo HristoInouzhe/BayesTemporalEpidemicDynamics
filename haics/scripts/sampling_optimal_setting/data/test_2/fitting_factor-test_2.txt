@@ -1,0 +1,4 @@
+../../output/test_2/test_2_1/art.txt:fitting_factor 5972.073124
+../../output/test_2/test_2_2/art.txt:fitting_factor 4416.731973
+../../output/test_2/test_2_3/art.txt:fitting_factor 3464.316683
+../../output/test_2/test_2_4/art.txt:fitting_factor 5063.518982

@@ -6,7 +6,7 @@
 
 **BayesTemporalEpidemicDynamics** is a flexible **Bayesian modelling framework** for epidemic dynamics with **time-varying transmission rates**. It implements **SEMIKR** and **SIKR** mechanistic models parameterised via **B-splines**, allowing the study of interventions, behavioural changes, and stochastic effects in disease spread.
 
-This repository is a [**complement to our research paper**](https://arxiv.org/abs/2301.06385), providing the full reference implementation of the methods, scripts, and data used in the publication. It contains:
+This repository is a **complement to our research paper** [*Dynamic SIR/SEIR-like models comprising a time-dependent transmission rate: Hamiltonian Monte Carlo approach with applications to COVID-19*](https://arxiv.org/abs/2301.06385), providing the full reference implementation of the methods, scripts, and data used in the publication. It contains:
 
 * Implementations in **HAICS**, **Stan**, and **LibBi**.
 * A robust **MAP-centred initialisation** strategy for efficient Hamiltonian Monte Carlo sampling.

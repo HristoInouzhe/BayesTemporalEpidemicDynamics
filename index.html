@@ -1,0 +1,213 @@
+<!-- ========= MULTI-SECTION GRIDS ========= -->
+<main id="gallery-root" style="max-width:1400px;margin:10px auto 48px;padding:0 16px;">
+  <!-- Basic Reproduction Number -->
+  <section id="sec-r0" class="section">
+    <h2 style="margin:22px 0 12px;font-size:22px;">Basic Reproduction Number</h2>
+    <div class="grid" id="grid-r0"></div>
+  </section>
+
+  <!-- Transmission Rate -->
+  <section id="sec-beta" class="section">
+    <h2 style="margin:28px 0 12px;font-size:22px;">Transmission Rate</h2>
+    <div class="grid" id="grid-beta"></div>
+  </section>
+
+  <!-- Posterior Predictive Daily Incidence -->
+  <section id="sec-pp" class="section">
+    <h2 style="margin:28px 0 12px;font-size:22px;">Posterior Predictive Daily Incidence</h2>
+    <div class="grid" id="grid-pp"></div>
+  </section>
+
+  <!-- Posterior Parameter Densities -->
+  <section id="sec-dens" class="section">
+    <h2 style="margin:28px 0 12px;font-size:22px;">Posterior Parameter Densities</h2>
+    <div class="grid" id="grid-dens"></div>
+  </section>
+</main>
+
+<script>
+// === Your exact file list ===
+const files = [
+  "testSens_01_beta.pdf",
+  "testSens_01_density_alpha.pdf",
+  "testSens_01_density_E0.pdf",
+  "testSens_01_density_I0.pdf",
+  "testSens_01_density_phi_inv.pdf",
+  "testSens_01_density_S0.pdf",
+  "testSens_01_density_tau.pdf",
+  "testSens_01_posteriorpredictive.pdf",
+  "testSens_01_R0.pdf",
+  "testSens_02_beta.pdf",
+  "testSens_02_density_alpha.pdf",
+  "testSens_02_density_E0.pdf",
+  "testSens_02_density_I0.pdf",
+  "testSens_02_density_phi_inv.pdf",
+  "testSens_02_density_S0.pdf",
+  "testSens_02_density_tau.pdf",
+  "testSens_02_posteriorpredictive.pdf",
+  "testSens_02_R0.pdf",
+  "testSens_03_beta.pdf",
+  "testSens_03_density_alpha.pdf",
+  "testSens_03_density_E0.pdf",
+  "testSens_03_density_I0.pdf",
+  "testSens_03_density_phi_inv.pdf",
+  "testSens_03_density_S0.pdf",
+  "testSens_03_density_tau.pdf",
+  "testSens_03_posteriorpredictive.pdf",
+  "testSens_03_R0.pdf",
+  "testSens_04_beta.pdf",
+  "testSens_04_density_alpha.pdf",
+  "testSens_04_density_E0.pdf",
+  "testSens_04_density_I0.pdf",
+  "testSens_04_density_phi_inv.pdf",
+  "testSens_04_density_S0.pdf",
+  "testSens_04_density_tau.pdf",
+  "testSens_04_posteriorpredictive.pdf",
+  "testSens_04_R0.pdf",
+  "testSens_05_beta.pdf",
+  "testSens_05_density_alpha.pdf",
+  "testSens_05_density_E0.pdf",
+  "testSens_05_density_I0.pdf",
+  "testSens_05_density_phi_inv.pdf",
+  "testSens_05_density_S0.pdf",
+  "testSens_05_density_tau.pdf",
+  "testSens_05_posteriorpredictive.pdf",
+  "testSens_05_R0.pdf",
+  "testSens_06_beta.pdf",
+  "testSens_06_density_alpha.pdf",
+  "testSens_06_density_E0.pdf",
+  "testSens_06_density_I0.pdf",
+  "testSens_06_density_phi_inv.pdf",
+  "testSens_06_density_S0.pdf",
+  "testSens_06_density_tau.pdf",
+  "testSens_06_posteriorpredictive.pdf",
+  "testSens_06_R0.pdf",
+  "testSens_09_beta.pdf",
+  "testSens_09_density_alpha.pdf",
+  "testSens_09_density_E0.pdf",
+  "testSens_09_density_I0.pdf",
+  "testSens_09_density_phi_inv.pdf",
+  "testSens_09_density_S0.pdf",
+  "testSens_09_density_tau.pdf",
+  "testSens_09_posteriorpredictive.pdf",
+  "testSens_09_R0.pdf"
+];
+
+// === Helpers ===
+function buildCaption(name) {
+  // ex: testSens_03_density_phi_inv.pdf
+  const base = name.replace(/\.pdf$/i,'');
+  const m = base.match(/^testSens_(\d+)_([\s\S]+)$/i);
+  const set = m ? m[1] : '';
+  let rest = m ? m[2] : base;
+
+  rest = rest
+    .replace(/posteriorpredictive/i, 'posterior predictive')
+    .replace(/phi_inv/i, 'phi⁻¹')
+    .replace(/R0/g, 'R₀')
+    .replace(/_/g, ' ');
+
+  return `Set ${set} — ${rest}`;
+}
+
+function thumbFor(fname) {
+  // looks in docs/images/thumbs/
+  const base = fname.replace(/\.pdf$/i,'');
+  // prefer *_thumb.jpg; fallback to *.jpg
+  return [
+    `images/thumbs/${base}_thumb.jpg`,
+    `images/thumbs/${base}.jpg`
+  ];
+}
+
+function makePdfTile(fname) {
+  const href = `images/${fname}`;
+  const caption = buildCaption(fname);
+
+  const a = document.createElement('a');
+  a.className = 'tile';
+  a.dataset.type = 'pdf';
+  a.dataset.caption = caption;
+  a.href = href;
+  a.target = '_blank';
+  a.rel = 'noopener';
+
+  const img = document.createElement('img');
+  img.className = 'thumb';
+  img.loading = 'lazy';
+  const candidates = thumbFor(fname);
+  img.src = candidates[0];
+  img.alt = `${caption} (PDF)`;
+  img.onerror = function() {
+    if (img.dataset.triedFallback) return; // already tried both
+    img.dataset.triedFallback = '1';
+    img.src = candidates[1];
+  };
+
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+
+  const cap = document.createElement('div');
+  cap.className = 'caption';
+  cap.textContent = `${caption} (PDF)`;
+
+  const badge = document.createElement('div');
+  badge.className = 'badge';
+  badge.textContent = 'pdf';
+
+  meta.appendChild(cap);
+  meta.appendChild(badge);
+  a.appendChild(img);
+  a.appendChild(meta);
+  return a;
+}
+
+// === Buckets by section ===
+const buckets = {
+  r0: [],
+  beta: [],
+  pp: [],
+  dens: []
+};
+
+files.forEach(f => {
+  if (/(_R0)\.pdf$/i.test(f)) buckets.r0.push(f);
+  else if (/(_beta)\.pdf$/i.test(f)) buckets.beta.push(f);
+  else if (/(_posteriorpredictive)\.pdf$/i.test(f)) buckets.pp.push(f);
+  else if (/(_density_)/i.test(f)) buckets.dens.push(f);
+});
+
+// === Render into each grid ===
+const grids = {
+  r0:  document.getElementById('grid-r0'),
+  beta: document.getElementById('grid-beta'),
+  pp:  document.getElementById('grid-pp'),
+  dens: document.getElementById('grid-dens'),
+};
+
+Object.entries(buckets).forEach(([key, arr]) => {
+  // sort for stable order (by filename)
+  arr.sort();
+  arr.forEach(f => grids[key].appendChild(makePdfTile(f)));
+});
+
+// === Hook up global filter (reuses the search input & count from the template) ===
+const search = document.getElementById('search');
+const count  = document.getElementById('count');
+const allTiles = Array.from(document.querySelectorAll('.tile'));
+
+function applyFilter(q) {
+  const needle = (q || '').trim().toLowerCase();
+  let visible = 0;
+  allTiles.forEach(t => {
+    const hay = (t.dataset.caption + ' ' + (t.getAttribute('href')||'')).toLowerCase();
+    const show = !needle || hay.includes(needle);
+    t.classList.toggle('hide', !show);
+    if (show) visible++;
+  });
+  if (count) count.textContent = visible;
+}
+search?.addEventListener('input', (e)=>applyFilter(e.target.value));
+applyFilter('');
+</script>
+

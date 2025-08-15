@@ -46,13 +46,15 @@ auxiliary_functions/            # Helper functions
 
 ### HAICS
 
+1. Install required system packages:
+
 ```bash
 sudo apt-get install libgsl-dev
 sudo apt-get install yad
-# Install Sundials (to /usr/local)
-# https://sundials.readthedocs.io/en/latest/Install_link.html
-# Install R: https://cran.r-project.org/
 ```
+
+2. Install **Sundials** following the [official guide](https://github.com/LLNL/sundials/blob/main/README.md) and ensure it is installed to `/usr/local`.
+
 
 ### Stan
 

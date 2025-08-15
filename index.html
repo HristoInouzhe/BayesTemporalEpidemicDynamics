@@ -43,6 +43,9 @@
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* smaller tiles */
       gap: var(--gap);
     }
+    /* Fixed column grids */
+    .grid-3x3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-3x2 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .tile {
       position: relative; display:block; text-decoration:none; color:inherit;
       background:#11141a;
@@ -78,9 +81,6 @@
       opacity:.7;
       font-size:12px;
     }
-    /* Fixed column grids */
-    .grid-3x3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .grid-3x2 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
     /* Optional: slightly smaller tiles in densities section */
     #sec-dens .tile .thumb { aspect-ratio: 1.4 / 1; object-fit: contain; }

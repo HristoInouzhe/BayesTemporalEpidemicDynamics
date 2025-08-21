@@ -40,3 +40,5 @@ fit <- sampling(
 
 # Save the fitted model
 saveRDS(fit, file = paste0("Stan/stan_fit_", experiment_id, ".RDS"))
+
+plot_Stan_fit(paste0("Stan/stan_fit_", experiment_id, ".RDS"), stan_data$y)

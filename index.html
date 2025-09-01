@@ -201,6 +201,14 @@ const GALLERIES = [
 const IMG_DIR   = 'images';
 const THUMB_DIR = 'images/thumbs';
 
+// Allowed densities per model (SIR & SI3R have no alpha or E0)
+const DENSITY_ALLOW = {
+  SEI3R: ['alpha','E0','I0','phi_inv','S0','tau'],
+  SEIR:  ['alpha','E0','I0','phi_inv','S0','tau'],
+  SI3R:  ['I0','phi_inv','S0','tau'],
+  SIR:   ['I0','phi_inv','S0','tau']
+};
+
 function thumbCandidates(fname){
   const base=fname.replace(/\.pdf$/i,'');
   return [`${THUMB_DIR}/${base}_thumb.jpg`, `${THUMB_DIR}/${base}.jpg`];
@@ -245,15 +253,32 @@ function groupSensitivity(files){
 }
 
 function groupByModel(files, prefix){
-  const groups={};
-  files.forEach(f=>{const m=f.match(new RegExp(`^${prefix}_(SEI3R|SEIR|SI3R|SIR)_([\\s\\S]+)\\.pdf$`,'i')); if(!m)return; const model=m[1]; const kind=m[2];
-    groups[model]??={beta:null,r0:null,pp:null,densities:[]};
-    if(/^beta$/i.test(kind)) groups[model].beta=f; else if(/^R0$/i.test(kind)) groups[model].r0=f; else if(/^posteriorpredictive$/i.test(kind)) groups[model].pp=f; else if(/^density_/i.test(kind)) groups[model].densities.push(f);
+  const groups = {};
+  files.forEach(f => {
+    const m = f.match(new RegExp(`^${prefix}_(sei3r|seir|si3r|sir)_([\\s\\S]+)\\.pdf$`, 'i'));
+    if (!m) return;
+    const modelRaw = m[1];              // as in filename (maybe lower-case)
+    const modelKey = modelRaw.toUpperCase(); // canonical for logic & keys
+    const kind = m[2];
+
+    groups[modelKey] ??= { beta:null, r0:null, pp:null, densities:[] };
+
+    if (/^beta$/i.test(kind)) groups[modelKey].beta = f;
+    else if (/^R0$/i.test(kind)) groups[modelKey].r0 = f;
+    else if (/^posteriorpredictive$/i.test(kind)) groups[modelKey].pp = f;
+    else if (/^density_/i.test(kind)) {
+      const densName = kind.replace(/^density_/i, ''); // e.g. "I0", "tau", "alpha", ...
+      if ((DENSITY_ALLOW[modelKey] || []).includes(densName)) {
+        groups[modelKey].densities.push(f);
+      }
+    }
   });
-  const ids=Object.keys(groups).sort();
-  const caption=(fn)=>buildCaptionModel(fn,prefix);
-  return {ids, groups, caption};
+
+  const ids = Object.keys(groups).sort();                     // ["SEI3R","SEIR","SI3R","SIR"] if present
+  const caption = (fn) => buildCaptionModel(fn, prefix);      // caption still uses filename
+  return { ids, groups, caption };
 }
+
 
 // DOM refs
 const tabs     = document.getElementById('tabs');
